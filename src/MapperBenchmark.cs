@@ -21,35 +21,35 @@ namespace MapperBenchmarkAspNet;
 public class MapperBenchmark
 {
     private IMapper? Mapper { get; set; }
-    private CalendarEvent? Event { get; set; }
-    private CalendarEventFormInput? EventFormInput { get; set; }
+    private OrderEvent? Order { get; set; }
+    private OrderEventInput? Input { get; set; }
 
     [GlobalSetup]
     public void GlobalSetup()
     {
         Mapper = CalendarAutoMapper.CreateMapper();
-        Event = Factory.NewCalendarEvent();
-        EventFormInput = Factory.NewCalendarEventFormInput();
+        Order = Factory.NewEventOrder();
+        Input = Factory.NewOrderEventInput();
     }    
 
     [BenchmarkCategory("PRJ"), Benchmark]
-    public ICalendarEventForm PrjAutoMapper() => Mapper!.Map<CalendarEventOutput>(Event);
+    public IOrderEvent PrjAutoMapper() => Mapper!.Map<OrderEventOutput>(Order);
 
     [BenchmarkCategory("PRJ"), Benchmark]
-    public ICalendarEventForm PrjRecord() => Event!.Parse();
+    public IOrderEvent PrjRecord() => Order!.Parse();
     
     [BenchmarkCategory("MPD"), Benchmark]
-    public ICalendarEventForm MpdAutoMapper() => Mapper!.Map<CalendarEventOutput>(EventFormInput);
+    public IOrderEvent MpdAutoMapper() => Mapper!.Map<OrderEventOutput>(Input);
 
     [BenchmarkCategory("MPD"), Benchmark]
-    public ICalendarEventForm MpdRecord() => EventFormInput!.Parse();    
+    public IOrderEvent MpdRecord() => Input!.Parse();    
     
     [GlobalCleanup]
     public void GlobalCleanup()
     {
         Mapper = null;
-        Event = null;
-        EventFormInput = null;
+        Order = null;
+        Input = null;
     }    
 }
 

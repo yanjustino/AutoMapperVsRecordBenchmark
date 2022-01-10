@@ -15,14 +15,20 @@ public class CalendarAutoMapper : Profile
     public CalendarAutoMapper()
     {
         // Mapping Directly
-        CreateMap<CalendarEventFormInput, CalendarEventOutput>();
+        CreateMap<OrderEventInput, OrderEventOutput>();
+        CreateMap<OrderEventInput.OrderInputInfo, OrderEventOutput.OrderOutputInfo>();
 
         // Projection
-        //
-        CreateMap<CalendarEvent, CalendarEventOutput>()
+        CreateMap<OrderEvent, OrderEventOutput>()
             .ForMember(dest => dest.EventDate, opt => opt.MapFrom(src => src.Date.Date))
             .ForMember(dest => dest.EventHour, opt => opt.MapFrom(src => src.Date.Hour))
             .ForMember(dest => dest.EventMinute, opt => opt.MapFrom(src => src.Date.Minute));
+        
+        CreateMap<OrderEvent, OrderEventOutput.OrderOutputInfo>()        
+            .ForMember(dest => dest.Code, opt => opt.MapFrom(src => src.Code))
+            .ForMember(dest => dest.Amount, opt => opt.MapFrom(src => src.Amount))
+            .ForMember(dest => dest.Fee, opt => opt.MapFrom(src => src.Fee))
+            .ForMember(dest => dest.Ticker, opt => opt.MapFrom(src => src.Ticker));
     }
 
     /// <summary>
@@ -44,12 +50,18 @@ public static class CalendarMapper
     /// </summary>
     /// <param name="src"></param>
     /// <returns></returns>
-    public static CalendarEventOutput Parse(this CalendarEvent src) => new()
+    public static OrderEventOutput Parse(this OrderEvent src) => new()
     {
         EventDate = src.Date.Date,
         EventHour = src.Date.Hour,
         EventMinute = src.Date.Minute,
-        Title = src.Title
+        OrderInfo = new OrderEventOutput.OrderOutputInfo
+        {
+            Code = src.Code,
+            Ticker = src.Ticker,
+            Amount = src.Amount,
+            Fee = src.Fee
+        }
     };
 
     /// <summary>
@@ -57,5 +69,5 @@ public static class CalendarMapper
     /// </summary>
     /// <param name="input"></param>
     /// <returns>ICalendarEventForm</returns>
-    public static ICalendarEventForm Parse(this CalendarEventFormInput input) => input with { };
+    public static IOrderEvent Parse(this OrderEventInput input) => input with { };
 }

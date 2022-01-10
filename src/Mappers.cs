@@ -6,13 +6,13 @@ namespace MapperBenchmarkAspNet;
 /// Profile Instance
 /// <see href="https://docs.automapper.org/en/stable/Configuration.html#profile-instances"/>
 /// </summary>
-public class CalendarMapper : Profile
+public class CalendarAutoMapper : Profile
 {
     /// <summary>
     /// Mapping based on Automapper projection sample
     /// <see href="https://docs.automapper.org/en/stable/Projection.html"/>
     /// </summary>
-    public CalendarMapper()
+    public CalendarAutoMapper()
     {
         // Mapping Directly
         CreateMap<CalendarEventFormInput, CalendarEventOutput>();
@@ -30,14 +30,14 @@ public class CalendarMapper : Profile
     /// <see href="https://docs.automapper.org/en/stable/Configuration.html"/>
     /// </summary>
     /// <returns></returns>
-    public static IMapper CreateMapper() => new MapperConfiguration(m => m.AddProfile<CalendarMapper>()).CreateMapper();
+    public static IMapper CreateMapper() => new MapperConfiguration(m => m.AddProfile<CalendarAutoMapper>()).CreateMapper();
 }
 
 /// <summary>
 /// Parser using C# record
 /// <see href="https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/tutorials/records"/>
 /// </summary>
-public static class CalendarParser
+public static class CalendarMapper
 {
     /// <summary>
     /// Projection

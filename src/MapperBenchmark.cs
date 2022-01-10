@@ -27,7 +27,7 @@ public class MapperBenchmark
     [GlobalSetup]
     public void GlobalSetup()
     {
-        Mapper = CalendarMapper.CreateMapper();
+        Mapper = CalendarAutoMapper.CreateMapper();
         Event = Factory.NewCalendarEvent();
         EventFormInput = Factory.NewCalendarEventFormInput();
     }    

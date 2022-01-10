@@ -1,9 +1,9 @@
 # Avaliação de performance: uso da biblioteca AutoMapper versus abordagem _Adhoc_ para mapeamento objeto-objeto no tipo record da linguagem C#
 
 ## Introdução 
-O mapeamento objeto-objeto é uma técnica muito comum na programação orientada a objetos (POO). Sua adoção está associada à necessidade de referenciar ou transformar estruturas. 
+O mapeamento objeto-objeto é uma técnica muito comum na programação orientada a objetos (POO). Sua adoção está associada à necessidade de intercambiar estruturas entre objetos. 
 A literatura de engenharia de software já documentou diversos padrões que dão suporte à diferentes tipos de mecanismos de mapeamento [[1]](https://martinfowler.com/eaaCatalog/index.html) [[2]](https://refactoring.guru/design-patterns/prototype).
-Contudo, uma forma de se obter o mapeamento objeto-objeto, de forma a abstrair a necessidade de implementar tais padrões, é adotar ferramentas prontas e que atendem tal propósito. 
+Contudo, uma forma de se obter o mapeamento objeto-objeto, de forma a abstrair a necessidade de implementar tais padrões, é adotar ferramentas atendam tal propósito. 
 
 - Apresentar o Automapper
 - O a adoção de ferramentas devem estar alinhadas com os propósitos de qualidade do projeto de software
@@ -21,40 +21,40 @@ OutlierMode=DontRemove
 
 ```
 
-| Method          | Categories | Descrição                           |
-|-----------------|----------- |-------------------------------------|
-| `PrjAutoMapper` |        PRJ | Projeção Automapper        |
-| `PrjRecord`     |        PRJ | Projeção _Adhoc_           |
-| `MpdAutoMapper` |        MPD | Mapeamento direto Automapper |
-| `MpdRecord`     |        MPD | Mapeamento direto _Adhoc_ |
+| Method          | Categories | Descrição             |
+|-----------------|----------- |-----------------------|
+| `PrjAutoMapper` |        PRJ | Projeção Automapper   |
+| `PrjRecord`     |        PRJ | Projeção _Adhoc_      |
+| `MpdAutoMapper` |        MPD | Mapeamento Automapper |
+| `MpdRecord`     |        MPD | Mapeamento _Adhoc_    |
 
 ### Visão geral
 
-|        Method |        Job |  Runtime | Categories |      Mean |    Error |   StdDev |    Median |
-|-------------- |----------- |--------- |----------- |----------:|---------:|---------:|----------:|
-| PrjAutoMapper | Job-GWFPFL | .NET 5.0 |        PRJ | 144.78 ns | 2.835 ns | 5.040 ns | 144.30 ns |
-|     PrjRecord | Job-GWFPFL | .NET 5.0 |        PRJ |  21.56 ns | 0.516 ns | 0.614 ns |  21.30 ns |
-| PrjAutoMapper | Job-TXFNNH | .NET 6.0 |        PRJ | 147.08 ns | 2.877 ns | 3.939 ns | 147.35 ns |
-|     PrjRecord | Job-TXFNNH | .NET 6.0 |        PRJ |  17.08 ns | 0.439 ns | 0.488 ns |  17.09 ns |
-|               |            |          |            |           |          |          |           |
-| MpdAutoMapper | Job-GWFPFL | .NET 5.0 |        MPD | 129.34 ns | 2.683 ns | 4.839 ns | 128.40 ns |
-|     MpdRecord | Job-GWFPFL | .NET 5.0 |        MPD |  14.20 ns | 0.841 ns | 2.479 ns |  13.50 ns |
-| MpdAutoMapper | Job-TXFNNH | .NET 6.0 |        MPD | 135.10 ns | 2.695 ns | 3.865 ns | 134.55 ns |
-|     MpdRecord | Job-TXFNNH | .NET 6.0 |        MPD |  12.76 ns | 0.350 ns | 0.576 ns |  12.77 ns |
+| Method                |  Runtime |      Mean |    Error |   StdDev |    Median |
+|-----------------------|--------- |----------:|---------:|---------:|----------:|
+| Projeção Automapper   | .NET 5.0 | 144.78 ns | 2.835 ns | 5.040 ns | 144.30 ns |
+| Projeção _Adhoc_      | .NET 5.0 |  21.56 ns | 0.516 ns | 0.614 ns |  21.30 ns |
+| Projeção Automapper   | .NET 6.0 | 147.08 ns | 2.877 ns | 3.939 ns | 147.35 ns |
+| Projeção _Adhoc_      | .NET 6.0 |  17.08 ns | 0.439 ns | 0.488 ns |  17.09 ns |
+|                       |          |           |          |          |           |
+| Mapeamento Automapper | .NET 5.0 | 129.34 ns | 2.683 ns | 4.839 ns | 128.40 ns |
+| Mapeamento _Adhoc_    | .NET 5.0 |  14.20 ns | 0.841 ns | 2.479 ns |  13.50 ns |
+| Mapeamento Automapper | .NET 6.0 | 135.10 ns | 2.695 ns | 3.865 ns | 134.55 ns |
+| Mapeamento _Adhoc_    | .NET 6.0 |  12.76 ns | 0.350 ns | 0.576 ns |  12.77 ns |
 
 ### Análise Percentil
 
-| Method        |        Job |  Runtime | Categories |        P0 |       P25 |       P50 |       P67 |       P80 |       P85 |       P90 |       P95 |      P100 |
-|---------------|----------- |--------- |----------- |----------:|----------:|----------:|----------:|----------:|----------:|----------:|----------:|----------:|
-| PrjAutoMapper | Job-GWFPFL | .NET 5.0 |        PRJ | 136.37 ns | 141.86 ns | 144.30 ns | 144.97 ns | 147.06 ns | 149.22 ns | 150.31 ns | 156.85 ns | 158.77 ns |
-| PrjRecord     | Job-GWFPFL | .NET 5.0 |        PRJ |  20.88 ns |  21.15 ns |  21.30 ns |  21.65 ns |  21.85 ns |  22.21 ns |  22.30 ns |  22.37 ns |  23.42 ns |
-| PrjAutoMapper | Job-TXFNNH | .NET 6.0 |        PRJ | 139.06 ns | 144.46 ns | 147.35 ns | 148.67 ns | 149.57 ns | 150.24 ns | 151.78 ns | 153.59 ns | 155.62 ns |
-| PrjRecord     | Job-TXFNNH | .NET 6.0 |        PRJ |  16.19 ns |  16.68 ns |  17.09 ns |  17.31 ns |  17.43 ns |  17.48 ns |  17.58 ns |  17.69 ns |  18.17 ns |
-|               |            |          |            |           |           |           |           |           |           |           |           |           |
-| MpdAutoMapper | Job-GWFPFL | .NET 5.0 |        MPD | 123.05 ns | 126.28 ns | 128.40 ns | 130.70 ns | 132.46 ns | 133.41 ns | 134.80 ns | 135.91 ns | 149.67 ns |
-| MpdRecord     | Job-GWFPFL | .NET 5.0 |        MPD |  12.39 ns |  13.21 ns |  13.50 ns |  13.94 ns |  14.50 ns |  15.10 ns |  16.02 ns |  17.52 ns |  34.60 ns |
-| MpdAutoMapper | Job-TXFNNH | .NET 6.0 |        MPD | 129.17 ns | 132.01 ns | 134.55 ns | 136.34 ns | 138.18 ns | 139.03 ns | 139.57 ns | 142.08 ns | 144.23 ns |
-| MpdRecord     | Job-TXFNNH | .NET 6.0 |        MPD |  11.66 ns |  12.42 ns |  12.77 ns |  13.01 ns |  13.13 ns |  13.15 ns |  13.35 ns |  13.49 ns |  14.61 ns |
+| Method                |  Runtime |        P0 |       P25 |       P50 |       P67 |       P80 |       P85 |       P90 |       P95 |      P100 |
+|-----------------------|--------- |----------:|----------:|----------:|----------:|----------:|----------:|----------:|----------:|----------:|
+| Projeção Automapper   | .NET 5.0 | 136.37 ns | 141.86 ns | 144.30 ns | 144.97 ns | 147.06 ns | 149.22 ns | 150.31 ns | 156.85 ns | 158.77 ns |
+| Projeção _Adhoc_      | .NET 5.0 |  20.88 ns |  21.15 ns |  21.30 ns |  21.65 ns |  21.85 ns |  22.21 ns |  22.30 ns |  22.37 ns |  23.42 ns |
+| Projeção Automapper   | .NET 6.0 | 139.06 ns | 144.46 ns | 147.35 ns | 148.67 ns | 149.57 ns | 150.24 ns | 151.78 ns | 153.59 ns | 155.62 ns |
+| Projeção _Adhoc_      | .NET 6.0 |  16.19 ns |  16.68 ns |  17.09 ns |  17.31 ns |  17.43 ns |  17.48 ns |  17.58 ns |  17.69 ns |  18.17 ns |
+|                       |          |           |           |           |           |           |           |           |           |           |
+| Mapeamento Automapper | .NET 5.0 | 123.05 ns | 126.28 ns | 128.40 ns | 130.70 ns | 132.46 ns | 133.41 ns | 134.80 ns | 135.91 ns | 149.67 ns |
+| Mapeamento _Adhoc_    | .NET 5.0 |  12.39 ns |  13.21 ns |  13.50 ns |  13.94 ns |  14.50 ns |  15.10 ns |  16.02 ns |  17.52 ns |  34.60 ns |
+| Mapeamento Automapper | .NET 6.0 | 129.17 ns | 132.01 ns | 134.55 ns | 136.34 ns | 138.18 ns | 139.03 ns | 139.57 ns | 142.08 ns | 144.23 ns |
+| Mapeamento _Adhoc_    | .NET 6.0 |  11.66 ns |  12.42 ns |  12.77 ns |  13.01 ns |  13.13 ns |  13.15 ns |  13.35 ns |  13.49 ns |  14.61 ns |
 
 ```shell
 // * Detailed results *

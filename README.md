@@ -1,11 +1,41 @@
-# Avaliação de performance: uso da biblioteca AutoMapper versus abordagem _Adhoc_ para mapeamento objeto-objeto no tipo record da linguagem C#
+> ⚠️ Texto em progresso
+
+# Avaliação de desempenho: uso da biblioteca AutoMapper versus abordagem _Adhoc_ para mapeamento objeto-objeto no tipo record da linguagem C#
 
 ## Introdução 
 O mapeamento objeto-objeto é uma técnica muito comum na programação orientada a objetos (POO). Sua adoção está associada à necessidade de intercambiar estruturas entre objetos. 
-A literatura de engenharia de software já documentou diversos padrões que dão suporte à diferentes tipos de mecanismos de mapeamento [[1]](https://martinfowler.com/eaaCatalog/index.html) [[2]](https://refactoring.guru/design-patterns/prototype).
-Contudo, uma forma de se obter o mapeamento objeto-objeto, de forma a abstrair a necessidade de implementar tais padrões, é adotar ferramentas atendam tal propósito. 
+A literatura de engenharia de software já documentou diversos padrões que dão suporte à diferentes tipos de mecanismos de mapeamento [[1]](https://martinfowler.com/eaaCatalog/index.html) [[2]](https://refactoring.guru/design-patterns).
+Uma forma de se obter o mapeamento objeto-objeto, de forma a abstrair a necessidade de implementar tais padrões, é adotar ferramentas que atendam tal propósito. Todavia, a adoção de ferramentas em projetos de software deveriam estar alinhadas com os propósitos de qualidade esperados/desejados desse software [[]](https://www.cs.unb.ca/~wdu/cs6075w10/sa2.htm). 
 
-- Apresentar o Automapper
+Nesse sentido, aplicar um processo de avaliação é um mecanismo importante para determinar a relevância, bem como a adequação de uma ferramenta a um projeto de software [[]](https://www2.dbd.puc-rio.br/pergamum/tesesabertas/0711318_09_cap_02.pdf). No que diz respeito ao uso de ferramentas de mapeamento objeto-objeto, podemos avaliar qual o impacto ao adotar esse tipo de ferramenta em cenários com restrições elevadas de desempenho. Nesse sentido, esse artigo apresenta um _benchmark_ entre uso da biblioteca AutoMapper versus abordagem _Adhoc_ de mapeamento objeto-objeto em tipos _record_ da linguagem C#
+
+
+
+Dentre as opções open-source de mapeamento objeto-objeto na plataforma `.NET`, o `Automapper`[[3]](https://automapper.org/) se destaca pela ampla adoção (mais de 200 Milhões de downloads e mais de 8mil stars no Github)[[4]](https://www.nuget.org/packages/AutoMapper/) e prestígio dentro da comunidade de desenvolvedores `.NET`[[5]](https://www.nuget.org/stats). Como estratégia de mapeamento objeto-objeto, o `AutoMapper` adota uma API de configuração fluente. Além disso, a biblioteca usa um algoritmo de correspondência baseado em convenção para corresponder os valores de origem e destino. Os código 1 e 2, ilustram como é feita a configuração e o uso básico do `Autommaper`. 
+
+**código 1. exemplo de configuração:**
+```c#
+var configuration = new MapperConfiguration(cfg => 
+{
+    cfg.CreateMap<Foo, FooDto>();
+    cfg.CreateMap<Bar, BarDto>();
+});
+
+// only during development, validate your mappings; remove it before release
+configuration.AssertConfigurationIsValid();
+
+// use DI (http://docs.automapper.org/en/latest/Dependency-injection.html) or create the mapper yourself
+var mapper = configuration.CreateMapper();
+```
+
+**código 2. exemplo de uso:**
+```c#
+var fooDto = mapper.Map<FooDto>(foo);
+var barDto = mapper.Map<BarDto>(bar);
+```
+
+
+
 - O a adoção de ferramentas devem estar alinhadas com os propósitos de qualidade do projeto de software
 - 
 

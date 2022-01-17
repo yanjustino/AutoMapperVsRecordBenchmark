@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>MapperBenchmarkAspNet.MapperBenchmark-20220115-193748</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; text-align: right; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet=v0.13.1, OS=macOS Monterey 12.0.1 (21A559) [Darwin 21.1.0]
+Intel Core i5-1030NG7 CPU 1.10GHz, 1 CPU, 8 logical and 4 physical cores
+.NET SDK=6.0.100
+  [Host]     : .NET 5.0.3 (5.0.321.7212), X64 RyuJIT
+  Job-TXQCFC : .NET 5.0.3 (5.0.321.7212), X64 RyuJIT
+  Job-IMSJKE : .NET 6.0.0 (6.0.21.52210), X64 RyuJIT
+</code></pre>
+<pre><code>OutlierMode=DontRemove  
+</code></pre>
+
+<table>
+<thead><tr><th> Method</th><th> Job</th><th>Runtime</th><th>Categories</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Rank</th>
+</tr>
+</thead><tbody><tr><td>PrjRecord</td><td>Job-TXQCFC</td><td>.NET 5.0</td><td>PRJ</td><td>57.25 ns</td><td>0.922 ns</td><td>0.863 ns</td><td>*</td>
+</tr><tr><td>PrjRecord</td><td>Job-IMSJKE</td><td>.NET 6.0</td><td>PRJ</td><td>62.98 ns</td><td>1.341 ns</td><td>1.790 ns</td><td>**</td>
+</tr><tr><td>PrjAutoMapper</td><td>Job-TXQCFC</td><td>.NET 5.0</td><td>PRJ</td><td>146.04 ns</td><td>0.429 ns</td><td>0.402 ns</td><td>***</td>
+</tr><tr><td>PrjAutoMapper</td><td>Job-IMSJKE</td><td>.NET 6.0</td><td>PRJ</td><td>146.19 ns</td><td>1.053 ns</td><td>0.985 ns</td><td>***</td>
+</tr><tr><td>MpdRecord</td><td>Job-TXQCFC</td><td>.NET 5.0</td><td>MPD</td><td>11.53 ns</td><td>0.191 ns</td><td>0.179 ns</td><td>*</td>
+</tr><tr><td>MpdRecord</td><td>Job-IMSJKE</td><td>.NET 6.0</td><td>MPD</td><td>11.70 ns</td><td>0.069 ns</td><td>0.064 ns</td><td>**</td>
+</tr><tr><td>MpdAutoMapper</td><td>Job-TXQCFC</td><td>.NET 5.0</td><td>MPD</td><td>128.56 ns</td><td>0.415 ns</td><td>0.388 ns</td><td>***</td>
+</tr><tr><td>MpdAutoMapper</td><td>Job-IMSJKE</td><td>.NET 6.0</td><td>MPD</td><td>134.00 ns</td><td>1.038 ns</td><td>0.971 ns</td><td>****</td>
+</tr></tbody></table>
+</body>
+</html>

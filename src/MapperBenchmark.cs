@@ -3,6 +3,8 @@ using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Columns;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Jobs;
+using BenchmarkDotNet.Mathematics;
+using BenchmarkDotNet.Order;
 using Perfolizer.Mathematics.OutlierDetection;
 
 namespace MapperBenchmarkAspNet;
@@ -12,12 +14,13 @@ namespace MapperBenchmarkAspNet;
 /// <see href="https://benchmarkdotnet.org/articles/overview.html"/>
 /// </summary>
 [CategoriesColumn]
-[Config(typeof(Config))]
 [Outliers(OutlierMode.DontRemove)]
 [SimpleJob(RuntimeMoniker.Net50, id:".Net 50")]
 [SimpleJob(RuntimeMoniker.Net60, id:".Net 60")]
 [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
 [MarkdownExporter, HtmlExporter, RPlotExporter]
+[Orderer(SummaryOrderPolicy.FastestToSlowest)]
+[RankColumn(NumeralSystem.Stars)]
 public class MapperBenchmark
 {
     private IMapper? Mapper { get; set; }
@@ -51,21 +54,4 @@ public class MapperBenchmark
         Order = null;
         Input = null;
     }    
-}
-
-public class Config : ManualConfig
-{
-    public Config()
-    {
-        AddColumn(
-            StatisticColumn.P0,
-            StatisticColumn.P25,
-            StatisticColumn.P50,
-            StatisticColumn.P67,
-            StatisticColumn.P80,
-            StatisticColumn.P85,
-            StatisticColumn.P90,
-            StatisticColumn.P95,
-            StatisticColumn.P100);
-    }
 }
